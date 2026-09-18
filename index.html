@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mercadinho da Matemática</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#243447;
+}
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:20px;
+}
+header{
+  background:#ffffff;
+  border-radius:20px;
+  padding:25px;
+  text-align:center;
+  box-shadow:0 3px 12px #0001;
+  margin-bottom:20px;
+}
+header h1{
+  margin:0 0 8px;
+  font-size:32px;
+}
+header p{margin:0;color:#657383}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:22px;
+  margin-bottom:18px;
+  box-shadow:0 3px 12px #0001;
+}
+
+input,select{
+  width:100%;
+  padding:13px;
+  border:1px solid #ccd5df;
+  border-radius:10px;
+  font-size:16px;
+  margin-top:6px;
+}
+label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 18px;
+  font-size:16px;
+  cursor:pointer;
+  background:#2867d8;
+  color:white;
+}
+button:hover{opacity:.9}
+
+.hidden{display:none}
+
+.produtos{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+.produto{
+  border:2px solid #e2e8f0;
+  border-radius:15px;
+  padding:15px;
+  text-align:center;
+  background:#fff;
+}
+.produto .emoji{font-size:42px}
+.produto h3{margin:7px 0}
+.preco{
+  font-weight:bold;
+  font-size:18px;
+}
+.controles{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+}
+.controles button{
+  padding:8px 13px;
+}
+.qtd{
+  font-weight:bold;
+  min-width:25px;
+  text-align:center;
+}
+
+.carrinho{
+  background:#f7f9fc;
+  border-radius:12px;
+  padding:15px;
+}
+.item{
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid #ddd;
+  padding:8px 0;
+}
+.total{
+  text-align:right;
+  font-size:23px;
+  font-weight:bold;
+  margin-top:12px;
+}
+
+.desafio{
+  border-left:6px solid #2867d8;
+}
+.opcoes{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:10px;
+  margin-top:15px;
+}
+.opcoes button{
+  background:#eef3ff;
+  color:#243447;
+  border:2px solid #d5dff5;
+}
+.opcoes button:hover{
+  background:#dfe9ff;
+}
+.feedback{
+  margin-top:15px;
+  font-size:18px;
+  font-weight:bold;
+}
+.progresso{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+.badge{
+  background:#2867d8;
+  color:white;
+  padding:8px 13px;
+  border-radius:20px;
+  font-weight:bold;
+}
+.resultado{
+  text-align:center;
+}
+.resultado .nota{
+  font-size:55px;
+  font-weight:bold;
+}
+@media(max-width:600px){
+  header h1{font-size:25px}
+  .container{padding:10px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <h1>🛒 Mercadinho da Matemática</h1>
+  <p>Compre, calcule, pense e descubra o troco!</p>
+</header>
+
+<!-- IDENTIFICAÇÃO -->
+<section id="inicio" class="card">
+  <h2>👋 Vamos começar!</h2>
+  <p>Antes de entrar no mercadinho, informe seus dados.</p>
+
+  <label>
+    Nome do aluno:
+    <input id="nome" type="text" placeholder="Digite seu nome">
+  </label>
+
+  <label>
+    Turma:
+    <select id="turma">
+      <option value="">Selecione sua turma</option>
+      <option>4º A</option>
+      <option>4º B</option>
+      <option>4º C</option>
+      <option>4º D</option>
+      <option>4º E</option>
+    </select>
+  </label>
+
+  <button onclick="comecar()">🛒 Entrar no mercadinho</button>
+</section>
+
+
+<!-- MERCADINHO -->
+<section id="jogo" class="hidden">
+
+  <div class="card progresso">
+    <strong id="saudacao"></strong>
+    <span class="badge">⭐ Pontos: <span id="pontos">0</span></span>
+  </div>
+
+  <div class="card">
+    <h2>🛍️ 1. Faça sua compra</h2>
+    <p>Você tem <strong>R$ 50,00</strong>. Escolha os produtos que deseja comprar.</p>
+
+    <div class="produtos">
+
+      <div class="produto">
+        <div class="emoji">🍎</div>
+        <h3>Maçã</h3>
+        <div class="preco">R$ 2,00</div>
+        <div class="controles">
+          <button onclick="alterar(0,-1)">−</button>
+          <span class="qtd" id="q0">0</span>
+          <button onclick="alterar(0,1)">+</button>
+        </div>
+      </div>
+
+      <div class="produto">
+        <div class="emoji">🥛</div>
+        <h3>Leite</h3>
+        <div class="preco">R$ 5,00</div>
+        <div class="controles">
+          <button onclick="alterar(1,-1)">−</button>
+          <span class="qtd" id="q1">0</span>
+          <button onclick="alterar(1,1)">+</button>
+        </div>
+      </div>
+
+      <div class="produto">
+        <div class="emoji">🍞</div>
+        <h3>Pão</h3>
+        <div class="preco">R$ 4,00</div>
+        <div class="controles">
+          <button onclick="alterar(2,-1)">−</button>
+          <span class="qtd" id="q2">0</span>
+          <button onclick="alterar(2,1)">+</button>
+        </div>
+      </div>
+
+      <div class="produto">
+        <div class="emoji">🧃</div>
+        <h3>Suco</h3>
+        <div class="preco">R$ 6,00</div>
+        <div class="controles">
+          <button onclick="alterar(3,-1)">−</button>
+          <span class="qtd" id="q3">0</span>
+          <button onclick="alterar(3,1)">+</button>
+        </div>
+      </div>
+
+      <div class="produto">
+        <div class="emoji">🍫</div>
+        <h3>Chocolate</h3>
+        <div class="preco">R$ 3,00</div>
+        <div class="controles">
+          <button onclick="alterar(4,-1)">−</button>
+          <span class="qtd" id="q4">0</span>
+          <button onclick="alterar(4,1)">+</button>
+        </div>
+      </div>
+
+      <div class="produto">
+        <div class="emoji">🧀</div>
+        <h3>Queijo</h3>
+        <div class="preco">R$ 8,00</div>
+        <div class="controles">
+          <button onclick="alterar(5,-1)">−</button>
+          <span class="qtd" id="q5">0</span>
+          <button onclick="alterar(5,1)">+</button>
+        </div>
+      </div>
+
+      <div class="produto">
+        <div class="emoji">🥚</div>
+        <h3>Ovos</h3>
+        <div class="preco">R$ 10,00</div>
+        <div class="controles">
+          <button onclick="alterar(6,-1)">−</button>
+          <span class="qtd" id="q6">0</span>
+          <button onclick="alterar(6,1)">+</button>
+        </div>
+      </div>
+
+      <div class="produto">
+        <div class="emoji">🥣</div>
+        <h3>Cereal</h3>
+        <div class="preco">R$ 12,00</div>
+        <div class="controles">
+          <button onclick="alterar(7,-1)">−</button>
+          <span class="qtd" id="q7">0</span>
+          <button onclick="alterar(7,1)">+</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🧺 Seu carrinho</h2>
+    <div id="carrinho" class="carrinho"></div>
+    <div class="total">Total: <span id="total">R$ 0,00</span></div>
+
+    <br>
+    <button onclick="finalizarCompra()">💰 Conferir minha compra</button>
+
+    <div id="compraFeedback" class="feedback"></div>
+  </div>
+
+
+  <!-- DESAFIOS -->
+  <div id="desafios" class="card hidden">
+    <h2>🧠 Desafios do caixa</h2>
+    <p>Agora você precisa resolver os problemas do caixa!</p>
+    <div id="desafioAtual"></div>
+  </div>
+
+</section>
+
+
+<!-- RESULTADO -->
+<section id="resultado" class="card hidden resultado">
+  <h2>🎉 Compra concluída!</h2>
+
+  <p id="resultadoNome"></p>
+
+  <div class="nota">
+    <span id="notaFinal">0</span>/10
+  </div>
+
+  <p id="mensagemFinal"></p>
+
+  <button onclick="location.reload()">🔄 Jogar novamente</button>
+</section>
+
+</div>
+
+
+<script>
+
+const produtos = [
+  {nome:"Maçã", preco:2},
+  {nome:"Leite", preco:5},
+  {nome:"Pão", preco:4},
+  {nome:"Suco", preco:6},
+  {nome:"Chocolate", preco:3},
+  {nome:"Queijo", preco:8},
+  {nome:"Ovos", preco:10},
+  {nome:"Cereal", preco:12}
+];
+
+let quantidades = [0,0,0,0,0,0,0,0];
+let pontos = 0;
+let desafioNumero = 0;
+
+const desafios = [
+
+{
+pergunta:"Você comprou 4 chocolates. Cada chocolate custa R$ 3,00. Quanto gastou?",
+opcoes:["R$ 7,00","R$ 9,00","R$ 12,00","R$ 15,00"],
+correta:"R$ 12,00"
+},
+
+{
+pergunta:"Maria comprou 3 leites. Cada leite custa R$ 5,00. Quanto ela gastou?",
+opcoes:["R$ 8,00","R$ 10,00","R$ 15,00","R$ 20,00"],
+correta:"R$ 15,00"
+},
+
+{
+pergunta:"João gastou R$ 32,00 e pagou com R$ 50,00. Qual foi o troco?",
+opcoes:["R$ 12,00","R$ 18,00","R$ 20,00","R$ 22,00"],
+correta:"R$ 18,00"
+},
+
+{
+pergunta:"Uma família comprou 5 sucos de R$ 6,00 cada. Quanto pagou?",
+opcoes:["R$ 25,00","R$ 30,00","R$ 35,00","R$ 36,00"],
+correta:"R$ 30,00"
+},
+
+{
+pergunta:"Ana comprou um queijo de R$ 8,00 e dois pães de R$ 4,00 cada. Quanto gastou?",
+opcoes:["R$ 12,00","R$ 14,00","R$ 16,00","R$ 18,00"],
+correta:"R$ 16,00"
+},
+
+{
+pergunta:"Pedro tinha R$ 100,00 e gastou R$ 67,00. Quanto recebeu de troco?",
+opcoes:["R$ 23,00","R$ 33,00","R$ 37,00","R$ 43,00"],
+correta:"R$ 33,00"
+},
+
+{
+pergunta:"Uma caixa possui 6 ovos. Cada ovo custa R$ 2,00. Quanto custam os 6 ovos?",
+opcoes:["R$ 8,00","R$ 10,00","R$ 12,00","R$ 14,00"],
+correta:"R$ 12,00"
+},
+
+{
+pergunta:"Lucas comprou 2 cereais de R$ 12,00 cada. Quanto gastou?",
+opcoes:["R$ 20,00","R$ 22,00","R$ 24,00","R$ 26,00"],
+correta:"R$ 24,00"
+},
+
+{
+pergunta:"Carla tinha R$ 50,00. Comprou produtos no valor de R$ 37,00. Quanto sobrou?",
+opcoes:["R$ 10,00","R$ 13,00","R$ 17,00","R$ 23,00"],
+correta:"R$ 13,00"
+},
+
+{
+pergunta:"Uma pessoa comprou 3 maçãs de R$ 2,00 e 2 sucos de R$ 6,00. Quanto gastou?",
+opcoes:["R$ 12,00","R$ 16,00","R$ 18,00","R$ 20,00"],
+correta:"R$ 18,00"
+}
+
+];
+
+
+function dinheiro(valor){
+  return "R$ " + valor.toFixed(2).replace(".",",");
+}
+
+
+function comecar(){
+
+  const nome = document.getElementById("nome").value.trim();
+  const turma = document.getElementById("turma").value;
+
+  if(!nome){
+    alert("Digite seu nome para começar.");
+    return;
+  }
+
+  if(!turma){
+    alert("Selecione sua turma.");
+    return;
+  }
+
+  document.getElementById("inicio").classList.add("hidden");
+  document.getElementById("jogo").classList.remove("hidden");
+
+  document.getElementById("saudacao").textContent =
+    "👋 Olá, " + nome + "! Boa compra!";
+}
+
+
+function alterar(indice, valor){
+
+  quantidades[indice] += valor;
+
+  if(quantidades[indice] < 0){
+    quantidades[indice] = 0;
+  }
+
+  atualizarCarrinho();
+}
+
+
+function atualizarCarrinho(){
+
+  let html = "";
+  let total = 0;
+
+  produtos.forEach((produto,i)=>{
+
+    if(quantidades[i] > 0){
+
+      let subtotal = produto.preco * quantidades[i];
+      total += subtotal;
+
+      html += `
+      <div class="item">
+        <span>${quantidades[i]} × ${produto.nome}</span>
+        <strong>${dinheiro(subtotal)}</strong>
+      </div>`;
+    }
+
+  });
+
+  if(html === ""){
+    html = "Seu carrinho está vazio.";
+  }
+
+  document.getElementById("carrinho").innerHTML = html;
+  document.getElementById("total").textContent = dinheiro(total);
+}
+
+
+function finalizarCompra(){
+
+  let total = 0;
+
+  produtos.forEach((produto,i)=>{
+    total += produto.preco * quantidades[i];
+  });
+
+  const feedback = document.getElementById("compraFeedback");
+
+  if(total === 0){
+    feedback.textContent = "🛒 Escolha pelo menos um produto.";
+    return;
+  }
+
+  if(total > 50){
+    feedback.textContent = "⚠️ Você ultrapassou seu orçamento de R$ 50,00. Retire algum produto.";
+    return;
+  }
+
+  const troco = 50 - total;
+
+  feedback.innerHTML =
+    "✅ Compra aprovada! Você gastou <strong>" +
+    dinheiro(total) +
+    "</strong> e receberá <strong>" +
+    dinheiro(troco) +
+    "</strong> de troco.";
+
+  document.getElementById("desafios").classList.remove("hidden");
+
+  mostrarDesafio();
+}
+
+
+function mostrarDesafio(){
+
+  if(desafioNumero >= desafios.length){
+    terminar();
+    return;
+  }
+
+  const d = desafios[desafioNumero];
+
+  let html = `
+    <div class="desafio">
+      <h3>Desafio ${desafioNumero+1} de ${desafios.length}</h3>
+      <p>${d.pergunta}</p>
+
+      <div class="opcoes">
+  `;
+
+  d.opcoes.forEach(opcao=>{
+    html += `<button onclick="responder('${opcao}')">${opcao}</button>`;
+  });
+
+  html += `
+      </div>
+      <div id="feedbackDesafio" class="feedback"></div>
+    </div>
+  `;
+
+  document.getElementById("desafioAtual").innerHTML = html;
+}
+
+
+function responder(resposta){
+
+  const d = desafios[desafioNumero];
+  const feedback = document.getElementById("feedbackDesafio");
+
+  if(resposta === d.correta){
+
+    pontos++;
+    feedback.textContent = "✅ Muito bem! Resposta correta!";
+    document.getElementById("pontos").textContent = pontos;
+
+  }else{
+
+    feedback.textContent =
+      "❌ Ainda não. A resposta correta é " + d.correta + ".";
+  }
+
+  document.querySelectorAll(".opcoes button").forEach(btn=>{
+    btn.disabled = true;
+    btn.style.opacity = ".6";
+  });
+
+  setTimeout(()=>{
+    desafioNumero++;
+    mostrarDesafio();
+  },1200);
+}
+
+
+function terminar(){
+
+  document.getElementById("jogo").classList.add("hidden");
+  document.getElementById("resultado").classList.remove("hidden");
+
+  document.getElementById("notaFinal").textContent = pontos;
+
+  const nome = document.getElementById("nome").value;
+
+  document.getElementById("resultadoNome").textContent =
+    nome + ", você terminou o desafio!";
+
+  let mensagem = "";
+
+  if(pontos === 10){
+    mensagem = "🏆 Excelente! Você acertou todos os desafios!";
+  }else if(pontos >= 7){
+    mensagem = "🌟 Muito bem! Você teve um ótimo desempenho!";
+  }else if(pontos >= 5){
+    mensagem = "👏 Bom trabalho! Continue praticando!";
+  }else{
+    mensagem = "💪 Continue estudando e tente novamente!";
+  }
+
+  document.getElementById("mensagemFinal").textContent = mensagem;
+}
+
+atualizarCarrinho();
+
+</script>
+
+</body>
+</html>
