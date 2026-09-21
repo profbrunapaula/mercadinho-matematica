@@ -95,6 +95,15 @@ button {
   margin-bottom: 16px;
 }
 
+.school-name {
+  color: var(--sicoob-teal);
+  font-size: clamp(11px, 2.8vw, 15px);
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin: 0 0 5px;
+}
+
 .cart-icon-title {
   font-size: 38px;
   margin-bottom: -5px;
@@ -709,6 +718,11 @@ button {
     padding: 16px 12px;
   }
 
+  .school-name {
+    font-size: 10px;
+    letter-spacing: .9px;
+  }
+
   .main-title {
     line-height: 1.05;
   }
@@ -881,6 +895,10 @@ button {
       </div>
 
       <div class="title-container">
+
+        <div class="school-name">
+          Grupo Escolar Castro Alves
+        </div>
 
         <div class="cart-icon-title">🛒</div>
 
@@ -2085,18 +2103,18 @@ function buildQuestions() {
     /* 9 */
 
     {
-      title: "Desafio 9 • Arredondamento",
+      title: "Desafio 9 • Repetindo a Compra 🛒",
 
       text:
-        `Qual é a dezena exata mais próxima do valor total da sua compra?`,
+        `Se você repetisse exatamente essa mesma compra 3 vezes, qual seria o valor gasto ao todo?`,
 
       answer:
-        Math.round(t / 10) * 10,
+        t * 3,
 
       type: "number",
 
       note:
-        "Exemplo: R$ 27 arredonda para R$ 30; R$ 23 para R$ 20."
+        "Multiplique o valor total da compra por 3."
     },
 
 
