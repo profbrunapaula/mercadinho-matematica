@@ -953,9 +953,7 @@ button {
 
 <body>
 
-<!-- =========================
-     TELA INICIAL
-========================= -->
+<!-- TELA INICIAL -->
 
 <section id="home" class="screen active">
   <div class="wrap">
@@ -1032,9 +1030,7 @@ button {
   </div>
 </section>
 
-<!-- =========================
-     TELA DO JOGO
-========================= -->
+<!-- TELA DO JOGO -->
 
 <section id="game" class="screen">
 
@@ -1070,9 +1066,7 @@ button {
 
       <div>
 
-        <!-- =========================
-             PRODUTOS
-        ========================= -->
+        <!-- PRODUTOS -->
 
         <div class="panel" id="shelfPanel">
 
@@ -1104,9 +1098,7 @@ button {
 
         </div>
 
-        <!-- =========================
-             CAIXA
-        ========================= -->
+        <!-- CAIXA -->
 
         <div class="panel checkout hidden" id="checkoutPanel">
 
@@ -1171,7 +1163,7 @@ button {
           <div class="total-challenge">
 
             <div class="question">
-              🧮 Qual foi o valor total da sua compra?
+              🧮 Desafio 1 — Qual foi o valor total da sua compra?
             </div>
 
             <p>
@@ -1199,25 +1191,16 @@ button {
             <div class="challenge-note" id="checkoutNote"></div>
 
             <div class="challenge-navigation checkout-navigation">
-
-              <button
-                class="nav-btn"
-                id="checkoutNext"
-                type="button"
-                disabled
-              >
-                Ir para os desafios →
+              <button class="nav-btn" id="checkoutNext" type="button" disabled>
+                Próxima →
               </button>
-
             </div>
 
           </div>
 
         </div>
 
-        <!-- =========================
-             DESAFIOS
-        ========================= -->
+        <!-- DESAFIOS -->
 
         <div class="panel challenge hidden" id="challengePanel">
 
@@ -1257,9 +1240,7 @@ button {
 
       </div>
 
-      <!-- =========================
-           CARRINHO
-      ========================= -->
+      <!-- CARRINHO -->
 
       <aside class="panel cart" id="cartPanel">
 
@@ -1277,9 +1258,7 @@ button {
 
 </section>
 
-<!-- =========================
-     TELA DE RESULTADO
-========================= -->
+<!-- TELA DE RESULTADO -->
 
 <section id="result" class="screen">
 
@@ -1287,9 +1266,7 @@ button {
 
     <div class="result-card">
 
-      <div class="result-emoji">
-        🎉
-      </div>
+      <div class="result-emoji">🎉</div>
 
       <p class="result-intro">
         Você concluiu a missão de matemática financeira do Financinhas!
@@ -1368,26 +1345,28 @@ button {
 
 /* =========================
    PRODUTOS
+   O ARTIGO É DEFINIDO
+   DE ACORDO COM O GÊNERO
 ========================= */
 
 const PRODUCTS = [
 
-  {id:"arroz", name:"Arroz", emoji:"🍚", price:18},
-  {id:"leite", name:"Leite", emoji:"🥛", price:6},
-  {id:"pao", name:"Pão", emoji:"🍞", price:8},
-  {id:"maca", name:"Maçã", emoji:"🍎", price:5},
-  {id:"suco", name:"Suco", emoji:"🧃", price:7},
-  {id:"biscoito", name:"Biscoito", emoji:"🍪", price:4},
-  {id:"feijao", name:"Feijão", emoji:"🫘", price:9},
-  {id:"queijo", name:"Queijo", emoji:"🧀", price:15},
-  {id:"banana", name:"Banana", emoji:"🍌", price:3},
-  {id:"iogurte", name:"Iogurte", emoji:"🥣", price:5},
-  {id:"cereal", name:"Cereal", emoji:"🥣", price:12},
-  {id:"agua", name:"Água", emoji:"💧", price:3},
-  {id:"chocolate", name:"Chocolate", emoji:"🍫", price:6},
-  {id:"bala", name:"Bala", emoji:"🍬", price:1},
-  {id:"pirulito", name:"Pirulito", emoji:"🍭", price:2},
-  {id:"morango", name:"Morango", emoji:"🍓", price:8}
+  {id:"arroz", name:"Arroz", emoji:"🍚", price:18, article:"O"},
+  {id:"leite", name:"Leite", emoji:"🥛", price:6, article:"O"},
+  {id:"pao", name:"Pão", emoji:"🍞", price:8, article:"O"},
+  {id:"maca", name:"Maçã", emoji:"🍎", price:5, article:"A"},
+  {id:"suco", name:"Suco", emoji:"🧃", price:7, article:"O"},
+  {id:"biscoito", name:"Biscoito", emoji:"🍪", price:4, article:"O"},
+  {id:"feijao", name:"Feijão", emoji:"🫘", price:9, article:"O"},
+  {id:"queijo", name:"Queijo", emoji:"🧀", price:15, article:"O"},
+  {id:"banana", name:"Banana", emoji:"🍌", price:3, article:"A"},
+  {id:"iogurte", name:"Iogurte", emoji:"🥣", price:5, article:"O"},
+  {id:"cereal", name:"Cereal", emoji:"🥣", price:12, article:"O"},
+  {id:"agua", name:"Água", emoji:"💧", price:3, article:"A"},
+  {id:"chocolate", name:"Chocolate", emoji:"🍫", price:6, article:"O"},
+  {id:"bala", name:"Bala", emoji:"🍬", price:1, article:"A"},
+  {id:"pirulito", name:"Pirulito", emoji:"🍭", price:2, article:"O"},
+  {id:"morango", name:"Morango", emoji:"🍓", price:8, article:"O"}
 
 ];
 
@@ -1403,6 +1382,12 @@ let state = {
   className: "4º Ano E",
 
   cart: {},
+
+  /*
+    q = índice da questão.
+    0 = Desafio 1, que fica no caixa.
+    1 = Desafio 2, que começa no painel.
+  */
 
   q: 0,
 
@@ -1435,9 +1420,7 @@ function show(id) {
 
   document
     .querySelectorAll(".screen")
-    .forEach(
-      s => s.classList.remove("active")
-    );
+    .forEach(s => s.classList.remove("active"));
 
   $(id).classList.add("active");
 
@@ -1451,8 +1434,7 @@ function show(id) {
 
 function tone(freq, dur=.09, type="sine") {
 
-  if (!state.sound)
-    return;
+  if (!state.sound) return;
 
   try {
 
@@ -1468,10 +1450,7 @@ function tone(freq, dur=.09, type="sine") {
     o.type = type;
     o.frequency.value = freq;
 
-    g.gain.setValueAtTime(
-      .05,
-      c.currentTime
-    );
+    g.gain.setValueAtTime(.05, c.currentTime);
 
     g.gain.exponentialRampToValueAtTime(
       .001,
@@ -1516,24 +1495,18 @@ function toggleSound() {
       ? "🔊 Som: ON"
       : "🔇 Som: OFF";
 
-  $("soundBtnHome").textContent =
-    txt;
+  $("soundBtnHome").textContent = txt;
 
   $("soundBtnGame").textContent =
-    state.sound
-      ? "🔊"
-      : "🔇";
+    state.sound ? "🔊" : "🔇";
 
   if (state.sound)
     clickSound();
 
 }
 
-$("soundBtnHome").onclick =
-  toggleSound;
-
-$("soundBtnGame").onclick =
-  toggleSound;
+$("soundBtnHome").onclick = toggleSound;
+$("soundBtnGame").onclick = toggleSound;
 
 /* =========================
    RESET
@@ -1559,8 +1532,7 @@ function resetGame() {
 
   $("challengePanel").classList.add("hidden");
 
-  $("progressBar").style.width =
-    "0%";
+  $("progressBar").style.width = "0%";
 
   renderShelf();
   renderCart();
@@ -1574,9 +1546,7 @@ function resetGame() {
 function startGame() {
 
   state.name =
-    $("studentNameInput")
-      .value
-      .trim();
+    $("studentNameInput").value.trim();
 
   if (!state.name) {
 
@@ -1587,7 +1557,6 @@ function startGame() {
     $("studentNameInput").focus();
 
     return;
-
   }
 
   tone(550,.08);
@@ -1606,8 +1575,7 @@ function startGame() {
 
 }
 
-$("startBtn").onclick =
-  startGame;
+$("startBtn").onclick = startGame;
 
 /* =========================
    PRODUTOS
@@ -1687,9 +1655,7 @@ function countItems() {
 function changeQty(id, delta) {
 
   let p =
-    PRODUCTS.find(
-      x => x.id === id
-    );
+    PRODUCTS.find(x => x.id === id);
 
   let q =
     (state.cart[id] || 0) + delta;
@@ -1710,7 +1676,6 @@ function changeQty(id, delta) {
     );
 
     return;
-
   }
 
   if (q === 0)
@@ -1786,8 +1751,7 @@ $("clearCart").onclick = () => {
 
 $("finishShopping").onclick = () => {
 
-  const selectedProducts =
-    cartLines().length;
+  const selectedProducts = cartLines().length;
 
   if (selectedProducts < 5) {
 
@@ -1796,13 +1760,11 @@ $("finishShopping").onclick = () => {
     );
 
     return;
-
   }
 
   /*
-    As questões são criadas aqui apenas uma vez.
-    Assim, depois de acertar o total no caixa,
-    elas não mudam quando o aluno entra nos desafios.
+    Monta todas as questões antes de abrir
+    o Desafio 1 no caixa.
   */
 
   buildQuestions();
@@ -1812,6 +1774,8 @@ $("finishShopping").onclick = () => {
   $("checkoutPanel").classList.remove("hidden");
 
   $("challengePanel").classList.add("hidden");
+
+  state.q = 0;
 
   renderCheckout();
 
@@ -1831,15 +1795,11 @@ $("finishShopping").onclick = () => {
 function cartLines() {
 
   return PRODUCTS
-    .filter(
-      p => state.cart[p.id]
-    )
+    .filter(p => state.cart[p.id])
     .map(p => ({
       p,
       q: state.cart[p.id],
-      v:
-        p.price *
-        state.cart[p.id]
+      v: p.price * state.cart[p.id]
     }));
 
 }
@@ -1892,19 +1852,20 @@ function renderCheckout() {
     checkoutNext.disabled = false;
 
     $("checkoutFeedback").textContent =
-      "✓ Correto! O valor total da compra está conferido.";
+      state.answers[0]?.correct
+        ? "✓ Correto! O valor total da compra está conferido."
+        : "✗ O valor informado não está correto.";
 
     $("checkoutFeedback").className =
-      "feedback ok";
+      state.answers[0]?.correct
+        ? "feedback ok"
+        : "feedback bad";
 
     $("checkoutNote").textContent =
       "Agora você pode seguir para o Desafio 2.";
 
     $("checkoutNote").style.display =
       "block";
-
-    $("progressBar").style.width =
-      "10%";
 
   } else {
 
@@ -1928,9 +1889,6 @@ function renderCheckout() {
     $("checkoutNote").textContent =
       "";
 
-    $("progressBar").style.width =
-      "0%";
-
     setTimeout(
       () => input?.focus(),
       100
@@ -1940,23 +1898,18 @@ function renderCheckout() {
 
 }
 
+/* =========================
+   IR PARA DESAFIO 2
+========================= */
+
 function goToFirstChallenge() {
 
   if (!state.checkoutAnswered)
     return;
 
-  $("checkoutPanel")
-    .classList
-    .add("hidden");
+  $("checkoutPanel").classList.add("hidden");
 
-  $("challengePanel")
-    .classList
-    .remove("hidden");
-
-  /*
-    O Desafio 1 já foi respondido no caixa.
-    Portanto, começamos no Desafio 2.
-  */
+  $("challengePanel").classList.remove("hidden");
 
   state.q = 1;
 
@@ -1966,17 +1919,19 @@ function goToFirstChallenge() {
 
 function returnToCheckout() {
 
-  $("challengePanel")
-    .classList
-    .add("hidden");
+  $("challengePanel").classList.add("hidden");
 
-  $("checkoutPanel")
-    .classList
-    .remove("hidden");
+  $("checkoutPanel").classList.remove("hidden");
+
+  state.q = 0;
 
   renderCheckout();
 
 }
+
+/* =========================
+   RESPONDER DESAFIO 1
+========================= */
 
 function confirmCheckoutTotal() {
 
@@ -1994,7 +1949,6 @@ function confirmCheckoutTotal() {
     input.focus();
 
     return;
-
   }
 
   const answer =
@@ -2009,22 +1963,21 @@ function confirmCheckoutTotal() {
   const note =
     $("checkoutNote");
 
+  state.answers[0] = {
+
+    correct:
+      correct,
+
+    answered:
+      true
+
+  };
+
   if (correct) {
 
-    /*
-      Desafio 1:
-      o valor total da compra é contabilizado
-      como uma das 10 questões.
-    */
+    state.correct++;
 
     state.checkoutAnswered = true;
-
-    state.answers[0] = {
-      correct: true,
-      answered: true
-    };
-
-    state.correct++;
 
     feedback.textContent =
       "✓ Correto! O valor total da compra está conferido.";
@@ -2033,35 +1986,16 @@ function confirmCheckoutTotal() {
       "feedback ok";
 
     note.textContent =
-      "Agora você pode seguir para o Desafio 2.";
+      "Muito bem! Agora você pode seguir para o Desafio 2.";
 
     note.style.display =
       "block";
-
-    input.disabled = true;
-
-    $("confirmCheckoutTotal").disabled =
-      true;
-
-    $("checkoutNext").disabled =
-      false;
-
-    $("progressBar").style.width =
-      "10%";
 
     successSound();
 
   } else {
 
-    /*
-      Resposta errada no caixa pode ser tentada
-      novamente e não conta como erro até o aluno
-      confirmar o valor correto.
-    */
-
     state.checkoutAnswered = false;
-
-    state.answers[0] = null;
 
     feedback.textContent =
       "✗ O valor informado não está correto. Tente novamente.";
@@ -2075,14 +2009,27 @@ function confirmCheckoutTotal() {
     note.style.display =
       "block";
 
-    $("checkoutNext").disabled =
-      true;
+    delete state.answers[0];
 
     errorSound();
 
     input.focus();
 
+    return;
+
   }
+
+  input.disabled = true;
+
+  const confirmBtn =
+    $("confirmCheckoutTotal");
+
+  confirmBtn.disabled = true;
+
+  const nextBtn =
+    $("checkoutNext");
+
+  nextBtn.disabled = false;
 
 }
 
@@ -2116,26 +2063,6 @@ function makeNotes(arrayNotes) {
 }
 
 /* =========================
-   ARTIGO DO PRODUTO
-========================= */
-
-function articleForProduct(name) {
-
-  const feminineProducts =
-    new Set([
-      "Maçã",
-      "Banana",
-      "Água",
-      "Bala"
-    ]);
-
-  return feminineProducts.has(name)
-    ? "A"
-    : "O";
-
-}
-
-/* =========================
    QUESTÕES
 ========================= */
 
@@ -2144,25 +2071,10 @@ function buildQuestions() {
   const lines =
     cartLines();
 
-  const t =
-    total();
-
-  const bal =
-    100 - t;
-
-  /*
-    Embaralha os produtos escolhidos
-    para variar as questões.
-  */
-
   const shuffled =
     [...lines].sort(
       () => Math.random() - 0.5
     );
-
-  /*
-    Escolhe dois produtos com preços diferentes.
-  */
 
   let diffA =
     shuffled[0];
@@ -2170,56 +2082,34 @@ function buildQuestions() {
   let diffB =
     shuffled[1];
 
-  for (
-    let i = 0;
-    i < shuffled.length;
-    i++
-  ) {
+  for (let i = 0; i < shuffled.length; i++) {
 
-    for (
-      let j = i + 1;
-      j < shuffled.length;
-      j++
-    ) {
+    for (let j = i + 1; j < shuffled.length; j++) {
 
       if (
         shuffled[i].p.price !==
         shuffled[j].p.price
       ) {
 
-        diffA =
-          shuffled[i];
+        diffA = shuffled[i];
+        diffB = shuffled[j];
 
-        diffB =
-          shuffled[j];
-
-        i =
-          shuffled.length;
-
+        i = shuffled.length;
         break;
-
       }
 
     }
 
   }
 
-  /*
-    Produto mais caro.
-  */
-
   const maxPrice =
     Math.max(
-      ...lines.map(
-        x => x.p.price
-      )
+      ...lines.map(x => x.p.price)
     );
 
   const maxCandidates =
     lines.filter(
-      x =>
-        x.p.price ===
-        maxPrice
+      x => x.p.price === maxPrice
     );
 
   const maxItem =
@@ -2233,9 +2123,7 @@ function buildQuestions() {
   const lowerItems =
     lines
       .filter(
-        x =>
-          x.p.price <
-          maxPrice
+        x => x.p.price < maxPrice
       )
       .sort(
         () => Math.random() - 0.5
@@ -2248,41 +2136,25 @@ function buildQuestions() {
     () => Math.random() - 0.5
   );
 
-  /*
-    Itens aleatórios para os desafios 4, 5 e 6.
-  */
-
   const item4 =
-    shuffled[
-      0 % shuffled.length
-    ];
+    shuffled[2 % shuffled.length];
 
   const item5 =
-    shuffled[
-      1 % shuffled.length
-    ];
+    shuffled[3 % shuffled.length];
 
   const item6 =
-    shuffled[
-      2 % shuffled.length
-    ];
+    shuffled[4 % shuffled.length];
 
   state.questions = [
 
-    /* =========================
-       DESAFIO 1
-       RESPONDIDO NO CAIXA
-    ========================= */
-
     {
-      title:
-        "Desafio 1",
+      title: "Desafio 1",
 
       text:
         `Qual foi o valor total da sua compra?`,
 
       answer:
-        t,
+        total(),
 
       type:
         "number",
@@ -2291,13 +2163,8 @@ function buildQuestions() {
         "Some o valor de cada produto de acordo com a quantidade escolhida."
     },
 
-    /* =========================
-       DESAFIO 2
-    ========================= */
-
     {
-      title:
-        "Desafio 2",
+      title: "Desafio 2",
 
       text:
         `Qual dos produtos que você escolheu é o mais caro?`,
@@ -2323,13 +2190,8 @@ function buildQuestions() {
         "Observe o preço unitário dos produtos escolhidos."
     },
 
-    /* =========================
-       DESAFIO 3
-    ========================= */
-
     {
-      title:
-        "Desafio 3",
+      title: "Desafio 3",
 
       text:
         `Qual é a diferença entre o preço de ${diffA.p.name} e o preço de ${diffB.p.name} que você colocou no seu carrinho de compras?`,
@@ -2347,20 +2209,14 @@ function buildQuestions() {
         "Subtraia o menor preço do maior preço."
     },
 
-    /* =========================
-       DESAFIO 4
-    ========================= */
-
     {
-      title:
-        "Desafio 4",
+      title: "Desafio 4",
 
       text:
         `Você comprou ${item4.p.name}. Se comprasse apenas esse produto e pagasse com uma nota de R$ 20,00, quanto receberia de troco?`,
 
       answer:
-        20 -
-        item4.p.price,
+        20 - item4.p.price,
 
       type:
         "number",
@@ -2369,16 +2225,11 @@ function buildQuestions() {
         "Faça R$ 20,00 menos o preço do produto."
     },
 
-    /* =========================
-       DESAFIO 5
-    ========================= */
-
     {
-      title:
-        "Desafio 5",
+      title: "Desafio 5",
 
       text:
-        `${articleForProduct(item5.p.name)} ${item5.p.name} custa R$ ${item5.p.price},00. Se comprasse 4 unidades, mas recebesse R$ 2,00 de desconto no total, quanto pagaria?`,
+        `${item5.p.article} ${item5.p.name.toLowerCase()} custa R$ ${item5.p.price},00. Se comprasse 4 unidades, mas recebesse R$ 2,00 de desconto no total, quanto pagaria?`,
 
       answer:
         item5.p.price * 4 - 2,
@@ -2390,21 +2241,15 @@ function buildQuestions() {
         "Calcule o valor de 4 unidades e depois retire R$ 2,00 de desconto."
     },
 
-    /* =========================
-       DESAFIO 6
-    ========================= */
-
     {
-      title:
-        "Desafio 6",
+      title: "Desafio 6",
 
       text:
         `Se você tivesse R$ 30,00 e quisesse comprar apenas ${item6.p.name}, quantas unidades desse produto poderia comprar sem ultrapassar os R$ 30,00?`,
 
       answer:
         Math.floor(
-          30 /
-          item6.p.price
+          30 / item6.p.price
         ),
 
       type:
@@ -2414,13 +2259,8 @@ function buildQuestions() {
         "Descubra quantas unidades cabem dentro dos R$ 30,00 sem ultrapassar o orçamento."
     },
 
-    /* =========================
-       DESAFIO 7
-    ========================= */
-
     {
-      title:
-        "Desafio 7",
+      title: "Desafio 7",
 
       text:
         `Mariana foi ao mesmo mercado e fez uma compra de R$ 37,00. Qual combinação de cédulas permite pagar o valor exato?`,
@@ -2481,13 +2321,8 @@ function buildQuestions() {
         "20 + 10 + 5 + 2 = R$ 37,00."
     },
 
-    /* =========================
-       DESAFIO 8
-    ========================= */
-
     {
-      title:
-        "Desafio 8",
+      title: "Desafio 8",
 
       text:
         `João comprou Arroz por R$ 18,00 e Suco por R$ 7,00. Pagou com R$ 50,00. Qual combinação de cédulas pode formar o troco?`,
@@ -2545,16 +2380,11 @@ function buildQuestions() {
         "joao1",
 
       note:
-        "Arroz + Suco = R$ 25,00. De R$ 50,00, o troco é R$ 25,00. A combinação correta é R$ 20 + R$ 5."
+        "Arroz + Suco = R$ 25,00. R$ 50,00 − R$ 25,00 = R$ 25,00. O troco pode ser formado por R$ 20,00 + R$ 5,00."
     },
 
-    /* =========================
-       DESAFIO 9
-    ========================= */
-
     {
-      title:
-        "Desafio 9",
+      title: "Desafio 9",
 
       text:
         `O Biscoito custa R$ 4,00. Na compra de 5 pacotes, a loja dá R$ 4,00 de desconto no total. Quanto será pago?`,
@@ -2569,13 +2399,8 @@ function buildQuestions() {
         "5 × 4 = R$ 20,00. Depois retire R$ 4,00 de desconto."
     },
 
-    /* =========================
-       DESAFIO 10
-    ========================= */
-
     {
-      title:
-        "Desafio 10",
+      title: "Desafio 10",
 
       text:
         `Luísa também tem R$ 100,00. Ela quer comprar 2 Queijos de R$ 15,00 cada, 2 Arroz de R$ 18,00 cada e 3 Sucos de R$ 7,00 cada. Quanto ela gastará ao todo?`,
@@ -2608,12 +2433,8 @@ function fmtAnswer(q) {
       );
 
     return opt
-      ? (
-          opt.label ||
-          "Correta"
-        )
+      ? (opt.label || "Correta")
       : q.answer;
-
   }
 
   return money(q.answer);
@@ -2632,7 +2453,6 @@ function renderQuestion() {
   ) {
 
     finishGame();
-
     return;
 
   }
@@ -2654,8 +2474,7 @@ function renderQuestion() {
   $("question").textContent =
     q.text;
 
-  $("feedback").textContent =
-    "";
+  $("feedback").textContent = "";
 
   $("feedback").className =
     "feedback";
@@ -2666,18 +2485,9 @@ function renderQuestion() {
   $("challengeNote").textContent =
     "";
 
-  /*
-    q=1 significa Desafio 2.
-    Portanto:
-    1/10 -> 10%,
-    2/10 -> 20%,
-    ...
-    9/10 -> 90%.
-  */
-
   $("progressBar").style.width =
     (
-      (state.q + 0) /
+      state.q /
       TOTAL_QUESTIONS *
       100
     ) + "%";
@@ -2740,8 +2550,7 @@ function renderQuestion() {
     `;
 
     setTimeout(
-      () =>
-        $("answerInput")?.focus(),
+      () => $("answerInput")?.focus(),
       100
     );
 
@@ -2782,8 +2591,7 @@ function updateQuestionNavigation() {
   if (!prev || !next)
     return;
 
-  prev.disabled =
-    false;
+  prev.disabled = false;
 
   const answered =
     !!state.answers[state.q];
@@ -2802,12 +2610,6 @@ function updateQuestionNavigation() {
 }
 
 function goPreviousQuestion() {
-
-  /*
-    O Desafio 1 fica no caixa.
-    Ao voltar do Desafio 2,
-    o aluno retorna ao caixa.
-  */
 
   if (state.q === 1) {
 
@@ -2861,21 +2663,13 @@ $("nextQuestion").onclick =
 
 function parseMoneyInput(value) {
 
-  if (
-    typeof value !==
-    "string"
-  ) {
+  if (typeof value !== "string")
+    value = String(value);
 
-    value =
-      String(value);
-
-  }
-
-  value =
-    value
-      .trim()
-      .replace(/\s/g, "")
-      .replace(/R\$/gi, "");
+  value = value
+    .trim()
+    .replace(/\s/g, "")
+    .replace(/R\$/gi, "");
 
   if (!value)
     return NaN;
@@ -2891,10 +2685,7 @@ function parseMoneyInput(value) {
     lastDot !== -1
   ) {
 
-    if (
-      lastComma >
-      lastDot
-    ) {
+    if (lastComma > lastDot) {
 
       value =
         value
@@ -2913,21 +2704,14 @@ function parseMoneyInput(value) {
   ) {
 
     value =
-      value.replace(
-        ",",
-        "."
-      );
+      value.replace(",", ".");
 
   } else if (
-    (value.match(/\./g) || [])
-      .length > 1
+    (value.match(/\./g) || []).length > 1
   ) {
 
     value =
-      value.replace(
-        /\./g,
-        ""
-      );
+      value.replace(/\./g, "");
 
   }
 
@@ -2944,9 +2728,7 @@ function answerNumber() {
   const q =
     state.questions[state.q];
 
-  if (
-    state.answers[state.q]
-  )
+  if (state.answers[state.q])
     return;
 
   const input =
@@ -2956,30 +2738,23 @@ function answerNumber() {
     return;
 
   const got =
-    parseMoneyInput(
-      input.value
-    );
+    parseMoneyInput(input.value);
 
   if (!Number.isFinite(got))
     return;
 
   const gotCents =
     Math.round(
-      (got +
-        Number.EPSILON) *
-      100
+      (got + Number.EPSILON) * 100
     );
 
   const answerCents =
     Math.round(
-      (q.answer +
-        Number.EPSILON) *
-      100
+      (q.answer + Number.EPSILON) * 100
     );
 
   const correct =
-    gotCents ===
-    answerCents;
+    gotCents === answerCents;
 
   state.answers[state.q] = {
 
@@ -3032,9 +2807,7 @@ function answerChoice(value) {
   const q =
     state.questions[state.q];
 
-  if (
-    state.answers[state.q]
-  )
+  if (state.answers[state.q])
     return;
 
   const correct =
@@ -3108,8 +2881,7 @@ function disableAnswer() {
     )
     .forEach(
       option => {
-        option.disabled =
-          true;
+        option.disabled = true;
       }
     );
 
@@ -3192,260 +2964,236 @@ $("printBtn").onclick = () => {
 };
 
 /* =========================
-   COMPARTILHAR RESULTADO
-   COMO IMAGEM
+   WHATSAPP — COMPARTILHAR IMAGEM
 ========================= */
 
-$("whatsBtn").onclick =
-  async () => {
+$("whatsBtn").onclick = async () => {
 
-    const button =
-      $("whatsBtn");
+  const button =
+    $("whatsBtn");
 
-    /*
-      Evita dois cliques enquanto
-      a imagem está sendo criada.
-    */
+  const originalText =
+    button.textContent;
 
-    button.disabled = true;
+  button.disabled = true;
 
-    const originalText =
-      button.textContent;
+  button.textContent =
+    "⏳ Preparando imagem...";
 
-    button.textContent =
-      "⏳ Preparando imagem...";
+  try {
 
-    try {
+    const resultCard =
+      document.querySelector(
+        ".result-card"
+      );
 
-      /*
-        Captura somente o cartão final,
-        incluindo o resultado do aluno.
-      */
+    const canvas =
+      await html2canvas(
+        resultCard,
+        {
+          backgroundColor: "#ffffff",
 
-      const resultCard =
-        document.querySelector(
-          ".result-card"
-        );
+          scale:
+            Math.max(
+              2,
+              window.devicePixelRatio || 1
+            ),
 
-      const canvas =
-        await html2canvas(
-          resultCard,
-          {
-            backgroundColor:
-              "#ffffff",
+          useCORS: true,
 
-            scale:
-              Math.max(
-                2,
-                window.devicePixelRatio || 1
-              ),
-
-            useCORS:
-              true,
-
-            logging:
-              false
-          }
-        );
-
-      /*
-        Converte a captura para PNG.
-      */
-
-      const blob =
-        await new Promise(
-          resolve =>
-            canvas.toBlob(
-              resolve,
-              "image/png"
-            )
-        );
-
-      if (!blob) {
-
-        throw new Error(
-          "Não foi possível criar a imagem."
-        );
-
-      }
-
-      const file =
-        new File(
-          [
-            blob
-          ],
-          "resultado-mercadinho.png",
-          {
-            type:
-              "image/png"
-          }
-        );
-
-      /*
-        Em celulares e navegadores que suportam
-        compartilhamento de arquivos, abre o
-        menu nativo e permite escolher WhatsApp.
-      */
-
-      if (
-        navigator.share &&
-        navigator.canShare &&
-        navigator.canShare({
-          files: [file]
-        })
-      ) {
-
-        await navigator.share({
-
-          title:
-            "Resultado - Mercadinho da Matemática",
-
-          text:
-            "Meu resultado no Mercadinho da Matemática!",
-
-          files:
-            [file]
-
-        });
-
-      } else if (
-        navigator.share
-      ) {
-
-        /*
-          Alguns navegadores aceitam
-          compartilhamento, mas não arquivos.
-        */
-
-        await navigator.share({
-
-          title:
-            "Resultado - Mercadinho da Matemática",
-
-          text:
-            "Meu resultado no Mercadinho da Matemática!"
-
-        });
-
-      } else {
-
-        /*
-          Computadores/navegadores sem Web Share:
-          cria uma visualização da imagem em uma
-          nova aba para o usuário poder salvar.
-        */
-
-        const imageUrl =
-          URL.createObjectURL(
-            blob
-          );
-
-        const newWindow =
-          window.open(
-            "",
-            "_blank"
-          );
-
-        if (newWindow) {
-
-          newWindow.document.write(`
-            <!DOCTYPE html>
-            <html lang="pt-BR">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Resultado - Mercadinho da Matemática</title>
-
-              <style>
-                body {
-                  margin: 0;
-                  padding: 20px;
-                  background: #eaf7f2;
-                  font-family: Arial, sans-serif;
-                  text-align: center;
-                }
-
-                img {
-                  max-width: 100%;
-                  height: auto;
-                  border-radius: 16px;
-                  box-shadow: 0 8px 25px rgba(0,54,65,.18);
-                }
-
-                p {
-                  color: #003641;
-                  font-weight: bold;
-                  line-height: 1.5;
-                }
-              </style>
-            </head>
-
-            <body>
-
-              <p>
-                Sua imagem de resultado está pronta.
-              </p>
-
-              <img
-                src="${imageUrl}"
-                alt="Resultado do Mercadinho da Matemática"
-              >
-
-              <p>
-                Salve a imagem e envie pelo WhatsApp.
-              </p>
-
-            </body>
-            </html>
-          `);
-
-          newWindow.document.close();
-
-        } else {
-
-          alert(
-            "A imagem foi preparada, mas o navegador bloqueou a nova janela. Permita pop-ups e tente novamente."
-          );
-
+          logging: false
         }
+      );
 
-      }
+    const blob =
+      await new Promise(
+        resolve =>
+          canvas.toBlob(
+            resolve,
+            "image/png"
+          )
+      );
 
-    } catch (error) {
+    if (!blob) {
 
-      /*
-        Se o usuário simplesmente cancelar
-        o menu de compartilhamento, não exibimos
-        erro.
-      */
-
-      if (
-        error &&
-        error.name !==
-        "AbortError"
-      ) {
-
-        console.error(
-          error
-        );
-
-        alert(
-          "Não foi possível compartilhar a imagem neste navegador. Tente novamente."
-        );
-
-      }
-
-    } finally {
-
-      button.disabled =
-        false;
-
-      button.textContent =
-        originalText;
+      throw new Error(
+        "Não foi possível criar a imagem."
+      );
 
     }
 
-  };
+    const file =
+      new File(
+        [blob],
+        "resultado-mercadinho.png",
+        {
+          type: "image/png"
+        }
+      );
+
+    /*
+      CELULAR:
+      abre o compartilhamento do aparelho.
+      O WhatsApp poderá ser escolhido.
+    */
+
+    if (
+      navigator.share &&
+      navigator.canShare &&
+      navigator.canShare({
+        files: [file]
+      })
+    ) {
+
+      await navigator.share({
+
+        title:
+          "Resultado - Mercadinho da Matemática",
+
+        files: [file]
+
+      });
+
+    } else {
+
+      /*
+        COMPUTADOR:
+        abre a imagem pronta para salvar
+        e enviar pelo WhatsApp.
+      */
+
+      const imageUrl =
+        URL.createObjectURL(blob);
+
+      const newWindow =
+        window.open(
+          "",
+          "_blank"
+        );
+
+      if (newWindow) {
+
+        newWindow.document.write(`
+
+          <!DOCTYPE html>
+
+          <html lang="pt-BR">
+
+          <head>
+
+            <meta charset="UTF-8">
+
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0"
+            >
+
+            <title>
+              Resultado - Mercadinho da Matemática
+            </title>
+
+            <style>
+
+              body {
+
+                margin: 0;
+
+                padding: 20px;
+
+                background: #eaf7f2;
+
+                font-family: Arial, sans-serif;
+
+                text-align: center;
+
+              }
+
+              img {
+
+                max-width: 100%;
+
+                height: auto;
+
+                border-radius: 16px;
+
+                box-shadow:
+                  0 8px 25px
+                  rgba(0,54,65,.18);
+
+              }
+
+              p {
+
+                color: #003641;
+
+                font-weight: bold;
+
+                line-height: 1.5;
+
+              }
+
+            </style>
+
+          </head>
+
+          <body>
+
+            <p>
+              Sua imagem de resultado está pronta.
+            </p>
+
+            <img
+              src="${imageUrl}"
+              alt="Resultado do Mercadinho da Matemática"
+            >
+
+            <p>
+              Salve a imagem e envie pelo WhatsApp.
+            </p>
+
+          </body>
+
+          </html>
+
+        `);
+
+        newWindow.document.close();
+
+      } else {
+
+        alert(
+          "A imagem foi preparada, mas o navegador bloqueou a nova janela. Permita pop-ups e tente novamente."
+        );
+
+      }
+
+    }
+
+  } catch (error) {
+
+    if (
+      error &&
+      error.name !== "AbortError"
+    ) {
+
+      console.error(error);
+
+      alert(
+        "Não foi possível compartilhar a imagem neste navegador. Tente novamente."
+      );
+
+    }
+
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent =
+      originalText;
+
+  }
+
+};
 
 </script>
 
