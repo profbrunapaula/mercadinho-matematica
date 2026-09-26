@@ -1831,19 +1831,25 @@ function renderCheckout() {
 
   if (state.checkoutAnswered) {
 
+    const savedAnswer = state.answers[0]?.value;
+
     input.value =
-      total().toFixed(2);
+      Number.isFinite(savedAnswer)
+        ? savedAnswer.toFixed(2)
+        : "";
 
     input.disabled = true;
 
     confirmBtn.disabled = true;
 
+    // O botão Próxima fica liberado depois que o Desafio 1
+    // foi respondido, assim como acontece nos demais desafios.
     checkoutNext.disabled = false;
 
     $("checkoutFeedback").textContent =
       state.answers[0]?.correct
         ? "✓ Correto! O valor total da compra está conferido."
-        : "✗ O valor informado não está correto.";
+        : "✗ Resposta registrada. O valor correto era " + money(total()) + ".";
 
     $("checkoutFeedback").className =
       state.answers[0]?.correct
@@ -1954,6 +1960,8 @@ function confirmCheckoutTotal() {
 
   state.answers[0] = {
 
+    value: got,
+
     correct:
       correct,
 
@@ -1962,11 +1970,15 @@ function confirmCheckoutTotal() {
 
   };
 
+  // O Desafio 1 passa a ser considerado respondido tanto
+  // quando a resposta está correta quanto quando está errada.
+  // Isso mantém o mesmo comportamento dos outros desafios:
+  // depois de CONFIRMAR, a tecla "Próxima" é liberada.
+  state.checkoutAnswered = true;
+
   if (correct) {
 
     state.correct++;
-
-    state.checkoutAnswered = true;
 
     feedback.textContent =
       "✓ Correto! O valor total da compra está conferido.";
@@ -1984,27 +1996,21 @@ function confirmCheckoutTotal() {
 
   } else {
 
-    state.checkoutAnswered = false;
+    state.wrong++;
 
     feedback.textContent =
-      "✗ O valor informado não está correto. Tente novamente.";
+      "✗ Resposta registrada. O valor informado não está correto.";
 
     feedback.className =
       "feedback bad";
 
     note.textContent =
-      "Observe novamente as quantidades e os preços unitários.";
+      "O valor correto era " + money(answer) + ". Agora você pode seguir para o Desafio 2.";
 
     note.style.display =
       "block";
 
-    delete state.answers[0];
-
     errorSound();
-
-    input.focus();
-
-    return;
 
   }
 
@@ -2024,6 +2030,13 @@ function confirmCheckoutTotal() {
 
 $("confirmCheckoutTotal").onclick =
   confirmCheckoutTotal;
+
+$("checkoutTotalInput").addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    confirmCheckoutTotal();
+  }
+});
 
 $("checkoutNext").onclick =
   goToFirstChallenge;
@@ -2492,10 +2505,20 @@ function renderQuestion() {
 
     `;
 
-    setTimeout(
-      () => $("answerInput")?.focus(),
-      100
-    );
+    setTimeout(() => {
+      const answerInput = $("answerInput");
+
+      if (answerInput) {
+        answerInput.focus();
+
+        answerInput.addEventListener("keydown", event => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            answerNumber();
+          }
+        });
+      }
+    }, 100);
 
   }
 
